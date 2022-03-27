@@ -40,6 +40,12 @@ namespace LibraryAPI.Controllers
             return user;
         }
 
+        [HttpPost("Register")]
+        public async Task<User> Register(RegisterDTO registerDTO) 
+        {
+        
+        }
+
     }
 
 }
