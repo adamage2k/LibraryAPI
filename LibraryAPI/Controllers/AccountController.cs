@@ -23,7 +23,7 @@ namespace LibraryAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<User> Login(LoginDTO loginDTO) 
+        public async Task<LoginReturnDTO> Login(LoginDTO loginDTO) 
         {
             var user = await _userManager.FindByNameAsync(loginDTO.Username);
             if (user == null) 
@@ -36,14 +36,34 @@ namespace LibraryAPI.Controllers
             {
                 throw new ArgumentException("Loggin Error");
             }
+            var userReturn = new LoginReturnDTO();
+            userReturn.FirstName = user.FirstName;
+            userReturn.LastName = user.LastName;
+            userReturn.UserName = user.UserName;
 
-            return user;
+            return userReturn;
         }
 
         [HttpPost("Register")]
-        public async Task<User> Register(RegisterDTO registerDTO) 
+        public async Task<RegisterReturnDTO> Register(RegisterDTO registerDTO) 
         {
-        
+            var newUser = new User();
+            newUser.UserName = registerDTO.Username;
+            newUser.FirstName = registerDTO.FirstName;
+            newUser.LastName = registerDTO.LastName;
+            newUser.Email = registerDTO.Email;
+            var result = await _userManager.CreateAsync(newUser, registerDTO.Passwd);
+
+            if (!result.Succeeded) 
+            {
+                throw new ArgumentException("Register Error");
+            }
+            var registerReturn = new RegisterReturnDTO();
+            registerReturn.FirstName = newUser.FirstName;
+            registerReturn.LastName = newUser.LastName;
+            registerReturn.UserName = newUser.UserName;
+
+            return registerReturn;
         }
 
     }
