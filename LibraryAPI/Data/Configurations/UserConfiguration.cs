@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace LibraryAPI.Data.Configurations
 {
-    public class BookConfiguration : IEntityTypeConfiguration<Book>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Book> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .ToTable("Book");
+                .ToTable("User");
 
             builder
-                .HasKey(b => b.BookId);
+                .HasKey("ID");
 
             builder
-                .HasMany(e => e.UserBooks)
-                .WithOne(eu => eu.Book)
-                .HasForeignKey(eu => eu.BookId);
+                .HasMany(u => u.UserBooks)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId);
         }
     }
 }

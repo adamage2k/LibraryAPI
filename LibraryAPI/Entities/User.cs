@@ -10,5 +10,6 @@ namespace LibraryAPI.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public ICollection<UserBook> UserBooks { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace LibraryAPI.Controllers
             var user = await _userManager.FindByNameAsync(loginDTO.Username);
             if (user == null) 
             {
-                throw new ArgumentException("User not exsists");
+                throw new ArgumentException("User not exists");
             }
             var result = await _signInManager.PasswordSignInAsync(loginDTO.Username, loginDTO.Passwd, false, false);
 
@@ -65,6 +65,20 @@ namespace LibraryAPI.Controllers
 
             return registerReturn;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<User>> SelectOneUser(string userId) 
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null) 
+            {
+                throw new ArgumentException("User does not exists");
+            }
+
+            return user;
+        }
+
 
     }
 

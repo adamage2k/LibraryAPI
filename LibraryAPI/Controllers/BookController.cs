@@ -29,5 +29,16 @@ namespace LibraryAPI.Controllers
         {
             return await _context.Books.ToListAsync();
         }
+
+        [HttpPost()]
+        public async Task<ActionResult<Book>> AddBook(Book book)
+        {
+
+            _context.Books.Add(book);
+
+            _context.SaveChanges();
+
+            return await _context.FindAsync<Book>(book);
+        }
     }
 }
