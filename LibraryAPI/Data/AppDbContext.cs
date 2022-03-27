@@ -10,8 +10,10 @@ namespace LibraryAPI.Data
 {
     public class AppDbContext : IdentityDbContext<User>
     {
+        public DbSet<Book> Books { get; set; }
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+
     }
 }
