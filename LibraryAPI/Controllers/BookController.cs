@@ -73,5 +73,32 @@ namespace LibraryAPI.Controllers
 
             return returnDTO;
         }
+
+        [HttpPut("Edit")]
+        public async Task<ActionResult<ReturnBookDTO>> EditBook(EditBookDTO editBook) 
+        {
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.BookId == editBook.BookId);
+
+            book.Title = editBook.Title;
+            book.Author = editBook.Author;
+            book.Description = editBook.Description;
+
+            _context.Books.Update(book);
+
+            if (await _context.SaveChangesAsync() < 1) 
+            {
+                throw new DbUpdateException("Error while editing data in database");
+            }
+
+            var returnDTO = new ReturnBookDTO
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Author = book.Author,
+                Description = book.Description
+            };
+
+            return returnDTO;
+        }
     }
 }
