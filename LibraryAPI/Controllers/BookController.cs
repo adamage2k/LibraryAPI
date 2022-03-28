@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Data;
+using LibraryAPI.DTOs;
 using LibraryAPI.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,20 +26,39 @@ namespace LibraryAPI.Controllers
 
         [Authorize]
         [HttpGet("GetAll")]
-        public async Task<IEnumerable<Book>> GetAllBooks()
+        public async Task<IEnumerable<ReturnBookDTO>> GetAllBooks()
         {
-            return await _context.Books.ToListAsync();
+            var books = await _context.Books.ToListAsync();
+            var booksReturn = new List<ReturnBookDTO>();
+
+            foreach (var book in books)
+            {
+                var bookReturn = new ReturnBookDTO
+                {
+                    BookId = book.BookId,
+                    Author = book.Author,
+                    Title = book.Title,
+                    Description = book.Description
+                };
+
+                booksReturn.Add(bookReturn);
+            }
+            return booksReturn;
         }
 
         [HttpPost()]
-        public async Task<ActionResult<Book>> AddBook(Book book)
+        public async Task<ActionResult<Book>> AddBook(AddBookDTO addbookDTO)
         {
+            var newBook = new Book();
+            newBook.Title = addbookDTO.Title;
+            newBook.Author = addbookDTO.Author;
+            newBook.Description = addbookDTO.Description;
 
-            _context.Books.Add(book);
+            _context.Books.Add(newBook);
 
             _context.SaveChanges();
 
-            return await _context.FindAsync<Book>(book);
+            return await _context.FindAsync<Book>(newBook);
         }
     }
 }
