@@ -100,5 +100,28 @@ namespace LibraryAPI.Controllers
 
             return returnDTO;
         }
+
+        [HttpDelete("Delete")]
+        public async Task<ActionResult<ReturnBookDTO>> DeleteBook(int bookId) 
+        {
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.BookId == bookId);
+
+            _context.Books.Remove(book);
+
+            if (await _context.SaveChangesAsync() < 1)
+            {
+                throw new DbUpdateException("Error while removig data from database");
+            }
+
+            var returnDTO = new ReturnBookDTO
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Author = book.Author,
+                Description = book.Description
+            };
+
+            return returnDTO;
+        }
     }
 }
