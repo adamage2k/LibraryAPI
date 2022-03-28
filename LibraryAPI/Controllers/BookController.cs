@@ -46,19 +46,32 @@ namespace LibraryAPI.Controllers
             return booksReturn;
         }
 
-        [HttpPost()]
-        public async Task<ActionResult<Book>> AddBook(AddBookDTO addbookDTO)
+        [HttpPost("Add")]
+        public async Task<ActionResult<ReturnBookDTO>> AddBook(AddBookDTO addbookDTO)
         {
-            var newBook = new Book();
-            newBook.Title = addbookDTO.Title;
-            newBook.Author = addbookDTO.Author;
-            newBook.Description = addbookDTO.Description;
+            var newBook = new Book
+            {
+                Title = addbookDTO.Title,
+                Author = addbookDTO.Author,
+                Description = addbookDTO.Description,
+            };
 
-            _context.Books.Add(newBook);
+            await _context.Books.AddAsync(newBook);
 
-            _context.SaveChanges();
+            if (await _context.SaveChangesAsync() < 1) 
+            {
+                throw new DbUpdateException("Error while adding data to database");
+            }
 
-            return await _context.FindAsync<Book>(newBook);
+            var returnDTO = new ReturnBookDTO
+            {
+                BookId = newBook.BookId,
+                Author = newBook.Author,
+                Title = newBook.Title,
+                Description = newBook.Description
+            };
+
+            return returnDTO;
         }
     }
 }
