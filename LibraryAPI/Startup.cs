@@ -1,5 +1,7 @@
 using LibraryAPI.Data;
 using LibraryAPI.Entities;
+using LibraryAPI.Interfaces;
+using LibraryAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,6 +45,7 @@ namespace LibraryAPI
                 .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddCors();
+            services.AddScoped<IBookService, BookService>();
 
         }
 
@@ -65,7 +68,6 @@ namespace LibraryAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {
