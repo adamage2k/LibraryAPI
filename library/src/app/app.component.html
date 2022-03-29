@@ -1,0 +1,22 @@
+
+<table>
+  <tr *ngFor="let book of books">
+    <td>
+      {{book.title}}
+    </td>
+    <td>
+      {{book.author}}
+    </td>
+    <td>
+      {{book.description}}
+    </td>
+  </tr>
+</table>
+
+<div>
+  <p>Title: <input type="text" [(ngModel)]="title"></p>
+  <p>Author: <input type="text" [(ngModel)]="author"></p>
+  <p>Description: <input type="text" [(ngModel)]="description"></p>
+  <button type="button" (click)="onBookAdd()">Dodaj ksiazke</button>
+</div>
+

@@ -1,0 +1,19 @@
+table, tr, td {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+table {
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    margin: auto;
+}
+
+td {
+    padding: 30px;
+}
+
+div {
+    padding-top: 100px;
+    width: 300px;
+    margin: auto;
+}
